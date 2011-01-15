@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nagtext">Fix your posture!</string>
+    <string name="app_name">NagMe</string>
+<string name="dismissbutton">Ok fine...</string>
+<string name="min">Minimum Time</string>
+<string name="max">Maximum Time</string>
+<string name="introtext">Welcome to Nagme!\nPlease enter the minimum and maximum times in minutes between nags</string>
+<string name="startbutton">Begin the naggings</string>
+<string name="stopbutton">Stop the nagging</string>
+</resources>

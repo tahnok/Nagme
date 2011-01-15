@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+
+<TextView android:layout_width="fill_parent" 
+			android:text="@string/introtext"
+			android:layout_height="wrap_content"
+			android:textSize="20dip"
+			android:gravity="center"
+			android:paddingBottom="20dip"></TextView>
+			
+<LinearLayout android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal"
+			android:gravity="center">
+	<EditText android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:id="@+id/min" 
+				android:singleLine="true"
+				android:hint="min"
+				android:inputType="number"
+				android:imeOptions="actionNext"
+				/>
+	<TextView android:layout_width="wrap_content"
+				android:text="@string/min"
+				android:layout_height="wrap_content"></TextView>
+
+
+</LinearLayout>
+<LinearLayout android:layout_width="fill_parent" 
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal"
+			android:gravity="center">
+	<EditText android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:id="@+id/max" 
+				android:singleLine="true"
+				android:hint="max"
+				android:inputType="number"
+				android:imeOptions="actionDone"/>
+				/>
+			<TextView android:layout_width="wrap_content"
+				android:text="@string/max"
+				android:layout_height="wrap_content"></TextView>
+</LinearLayout>
+
+<Button android:layout_width="fill_parent" 
+			android:id="@+id/startbutton"
+			android:text="@string/startbutton"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			></Button>
+			
+<Button android:id="@+id/stopbutton" 
+			android:text="@string/stopbutton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			></Button>
+</LinearLayout>
