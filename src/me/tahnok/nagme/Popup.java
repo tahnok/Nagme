@@ -1,4 +1,4 @@
-package com.tahnok.nagme;
+package me.tahnok.nagme;
 
 import java.util.Calendar;
 import java.util.Random;
@@ -48,7 +48,7 @@ public class Popup extends Activity {
     public void vibrate(){
     	Log.d(TAG, "now here");
     	Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-    	long[] pattern = {0,200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 1000};
+    	long[] pattern = {0,200, 200, 200, 200, 200, 1000};
     	v.vibrate(pattern, -1);
     
     }

@@ -1,4 +1,4 @@
-package com.tahnok.nagme;
+package me.tahnok.nagme;
 
 //TODO make the popup using a custom nagging reminder
 //TODO make it remember that custom string
@@ -8,6 +8,8 @@ package com.tahnok.nagme;
 
 import java.util.Calendar;
 import java.util.Random;
+
+import com.tahnok.nagme.R;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -58,10 +60,20 @@ public class Configurator extends Activity {
 		});
 	}
 	
+	/**
+	 * This 
+	 * @param min
+	 * 		minimum time between nags
+	 * @param max
+	 * 		maximum time between nags
+	 * @param message
+	 * 		message to show when a nag happens
+	 */
 	public void schedule(int min, int max, String message){
+		//clear existing ones
 		cancelPending();
-		AlarmManager mgr= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		
+		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+	
 		Intent i = new Intent(getApplicationContext(), StartReciever.class);
 		i.putExtra("min", min);
 		i.putExtra("max", max);
@@ -76,8 +88,13 @@ public class Configurator extends Activity {
 		Log.d(TAG, "Event scheduled");
 	}
 	
+	/**
+	 * cancels all pending alarms to nag you
+	 */
 	public void cancelPending(){
-		AlarmManager mgr= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		//Alarm manager lets you schedule events for the future
+		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		//make an intent to just cancel it
 		Intent i = new Intent(getApplicationContext(), StartReciever.class);
 		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		mgr.cancel(toSend);

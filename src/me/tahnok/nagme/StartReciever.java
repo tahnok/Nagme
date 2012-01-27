@@ -1,4 +1,4 @@
-package com.tahnok.nagme;
+package me.tahnok.nagme;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
