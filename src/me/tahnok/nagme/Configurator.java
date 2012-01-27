@@ -9,7 +9,7 @@ package me.tahnok.nagme;
 import java.util.Calendar;
 import java.util.Random;
 
-import com.tahnok.nagme.R;
+import me.tahnok.nagme.R;
 
 import android.app.Activity;
 import android.app.AlarmManager;
