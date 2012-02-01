@@ -1,16 +1,8 @@
 package me.tahnok.nagme;
 
-//TODO make the popup using a custom nagging reminder
-//TODO make it remember that custom string
-//TODO remember min, max times
-//TODO make sure min is < max
-
-
 import java.util.Calendar;
 import java.util.Random;
-
 import me.tahnok.nagme.R;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -25,15 +17,15 @@ import android.widget.EditText;
 
 public class Configurator extends Activity {
 	public static final String TAG = "nagme";
-	
-//	PendingIntent toSend = null;
-	
+
+	//	PendingIntent toSend = null;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		
-//		toSend = (PendingIntent) getLastNonConfigurationInstance();
-		
+
+		//		toSend = (PendingIntent) getLastNonConfigurationInstance();
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.configurator);
 		final Button launcher = (Button) findViewById(R.id.startbutton);
@@ -41,25 +33,25 @@ public class Configurator extends Activity {
 		final EditText max = (EditText) findViewById(R.id.max);
 
 		launcher.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				int min_time = Integer.parseInt(min.getText().toString());
 				int max_time = Integer.parseInt(max.getText().toString());
-				schedule(min_time, max_time, "Ok fine...");
+				schedule(min_time, max_time, "OK");
 			}
 		});
 		final Button cancel = (Button) findViewById(R.id.stopbutton);
 		cancel.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				cancelPending();
-				
+
 			}
 		});
 	}
-	
+
 	/**
 	 * This 
 	 * @param min
@@ -73,13 +65,13 @@ public class Configurator extends Activity {
 		//clear existing ones
 		cancelPending();
 		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-	
+
 		Intent i = new Intent(getApplicationContext(), StartReciever.class);
 		i.putExtra("min", min);
 		i.putExtra("max", max);
 		i.putExtra("message", message);
 		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_CANCEL_CURRENT);
-		
+
 		Calendar cal = Calendar.getInstance();
 		Random rand = new Random();
 		int next = rand.nextInt(max-min) + min;
@@ -87,7 +79,7 @@ public class Configurator extends Activity {
 		mgr.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), toSend);
 		Log.d(TAG, "Event scheduled");
 	}
-	
+
 	/**
 	 * cancels all pending alarms to nag you
 	 */
@@ -99,7 +91,7 @@ public class Configurator extends Activity {
 		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		mgr.cancel(toSend);
 	}
-	
-	
-	
+
+
+
 }
