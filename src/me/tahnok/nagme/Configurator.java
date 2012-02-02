@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 public class Configurator extends Activity {
 	public static final String TAG = "nagme";
@@ -31,14 +32,34 @@ public class Configurator extends Activity {
 		final Button launcher = (Button) findViewById(R.id.startbutton);
 		final EditText min = (EditText) findViewById(R.id.min);
 		final EditText max = (EditText) findViewById(R.id.max);
-
+		final ToggleButton toggle = (ToggleButton) findViewById(R.id.serviceState); 
+		
+		toggle.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(toggle.isChecked()){
+					schedule(min, max, "OK");
+				}
+				else{
+					cancelPending();
+				}
+				
+			}
+		});
+		
+		if(isRunning()){
+			toggle.setChecked(true);
+		}
+		else{
+			toggle.setChecked(false);
+		}
+		
 		launcher.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				int min_time = Integer.parseInt(min.getText().toString());
-				int max_time = Integer.parseInt(max.getText().toString());
-				schedule(min_time, max_time, "OK");
+				schedule(min, max, "OK");
 			}
 		});
 		final Button cancel = (Button) findViewById(R.id.stopbutton);
@@ -47,9 +68,33 @@ public class Configurator extends Activity {
 			@Override
 			public void onClick(View v) {
 				cancelPending();
-
+				toggle.setChecked(false);
 			}
 		});
+		
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		final ToggleButton toggle = (ToggleButton) findViewById(R.id.serviceState); 
+		toggle.setChecked(isRunning());
+		Log.d(TAG, "" + isRunning());
+
+	}
+		
+	private boolean isRunning() {
+		//Alarm manager lets you schedule events for the future
+				AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+				//make an intent to just cancel it
+				Intent i = new Intent(getApplicationContext(), StartReciever.class);
+				PendingIntent running = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_NO_CREATE);
+				if(running == null){
+					return false;
+				}
+				else{
+					return true;
+				}
 	}
 
 	/**
@@ -61,7 +106,20 @@ public class Configurator extends Activity {
 	 * @param message
 	 * 		message to show when a nag happens
 	 */
-	public void schedule(int min, int max, String message){
+	public void schedule(EditText minBox, EditText maxBox, String message){
+		int min;
+		int max;
+		
+		try{
+			min = Integer.parseInt(minBox.getText().toString());
+			max = Integer.parseInt(maxBox.getText().toString());
+		}
+		catch(NumberFormatException e){
+			//defaults
+			min = 10;
+			max = 60;
+		}
+		
 		//clear existing ones
 		cancelPending();
 		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -70,7 +128,7 @@ public class Configurator extends Activity {
 		i.putExtra("min", min);
 		i.putExtra("max", max);
 		i.putExtra("message", message);
-		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_ONE_SHOT);
 
 		Calendar cal = Calendar.getInstance();
 		Random rand = new Random();
@@ -78,6 +136,7 @@ public class Configurator extends Activity {
 		cal.add(Calendar.MINUTE, next);
 		mgr.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), toSend);
 		Log.d(TAG, "Event scheduled");
+		
 	}
 
 	/**
@@ -88,8 +147,9 @@ public class Configurator extends Activity {
 		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		//make an intent to just cancel it
 		Intent i = new Intent(getApplicationContext(), StartReciever.class);
-		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_CANCEL_CURRENT);
-		mgr.cancel(toSend);
+		PendingIntent toSend = PendingIntent.getBroadcast(getApplicationContext(), 1123498, i, PendingIntent.FLAG_NO_CREATE);
+		if(toSend != null) mgr.cancel(toSend);
+		Log.d(TAG, "Event canceled");
 	}
 
 

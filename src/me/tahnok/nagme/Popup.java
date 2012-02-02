@@ -32,9 +32,9 @@ public class Popup extends Activity {
 		final int min = bundle.getInt("min");
 		final int max = bundle.getInt("max");
 
-		final Button testButton = (Button) findViewById(R.id.DismissButton);
-
-		testButton.setOnClickListener(new View.OnClickListener() {
+		final Button okButton = (Button) findViewById(R.id.continueButton);
+		final Button stopButton = (Button) findViewById(R.id.StopItButton);
+		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			/*
 			 * when the button is clicked dismiss the vibration, and schedule another
@@ -46,6 +46,14 @@ public class Popup extends Activity {
 				finish();
 			}
 		});
+		stopButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+		
 		vibrate();
 	}
 
